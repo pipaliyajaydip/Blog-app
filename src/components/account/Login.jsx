@@ -9,7 +9,8 @@ import {useFormik} from 'formik'
 import {signupSchema} from '../../schemas/schemas'
 
 // css
-import {Box,Typography,TextField,Button,Snackbar,SnackbarContent} from '@mui/material'
+import {Box,Typography,TextField,Button,Snackbar,SnackbarContent,InputAdornment} from '@mui/material'
+import {Visibility, VisibilityOff} from '@mui/icons-material';
 
 import './Login.css'
 import blog from '../../images/Blog.png'
@@ -25,10 +26,17 @@ const signupValue = {
 const LoginWindow = () => {
 
     // for login and signup toggel frame
-    const [account, toggelAccount] = useState('login')
+    const [account, toggelAccount] = useState('login');
 
     // for error message display
-    const [msg, setMsg] = useState('')
+    const [msg, setMsg] = useState('');
+
+    // for show and hide Password
+    const [pass, showPass] = useState(true);
+
+    const handlePass = () => {
+        showPass(!pass);
+    };
 
 
     // for signup value store
@@ -95,7 +103,17 @@ const LoginWindow = () => {
                         <div className="head">
                             <form className="formstyle">
                                 <TextField label='UserName' name='email' variant='standard' autoComplete = "off" />
-                                <TextField label='Password' name='password' variant='standard' type='password' />
+                                <TextField label='Password' name='password' variant='standard' type = {pass ? "password" : "text"}
+                                InputProps={{endAdornment:
+                                    <InputAdornment position='end'>
+                                        { pass ? 
+                                            <Visibility onClick={handlePass}/>
+                                            : 
+                                            <VisibilityOff onClick={handlePass}/> 
+                                        }
+                                    </InputAdornment>
+                                }}
+                                />
                                 <Button variant='contained' className='login-button' type='submit'>Login</Button>
                             </form>
                                 { msg && <Typography>{msg}</Typography>}
